@@ -4,11 +4,15 @@
 #include <fcntl.h>
 #include <wincon.h>
 #include <stdio.h>
+#include <string>
 #include <stack>
 #include <stdarg.h>
 #include "curses.h"
 
 using namespace std;
+
+string scriptStr = ""; //yes, I know it's file global
+bool scriptReading = false;
 
 void clearConsole()
 {
@@ -58,7 +62,7 @@ void print_status(WINDOW *out)
 	wprintw(out, " K: %d\tC: %d\tW: %d\tS: %d\tLVL: %d\n", pl_keys, pl_coins, pl_walls, getscore(), pl_lvl);
 	wprintw(out, " HULKMODE: %d\tZROT: %-2d\tYROT: %-2d\n", pl_hulk_smash, -(int)Zangle, abs((int)Yangle));
 	wprintw(out, " KREQ: %-3d\tFPS: %2.2f\tKILL: %d\n", requiredKeys, frameRate, pl_zkills);
-	wprintw(out, " HEALTH: %d\n", pl_health);
+	wprintw(out, " HEALTH: %d %s\n", pl_health, scriptStr.c_str());
 	refresh_win(out);
 }
 
@@ -92,6 +96,7 @@ DWORD WINAPI OutputThreadCurses(LPVOID lparam)
 {
 	char *title2 = new char[strlen(title) + strlen(" - Console") + 5];
 	bool debugMode = debugVisible;
+	SCREEN *scr;
 	sprintf(title2, "%s - Console", title);
 	AllocConsole();
 	HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -105,14 +110,19 @@ DWORD WINAPI OutputThreadCurses(LPVOID lparam)
 	HWND ConsoleHandle = GetConsoleWindow();
 	MoveWindow(ConsoleHandle, 0, 0, 525, 535, true);
 	SetConsoleTitleA(title2);
-	*stdin = *hf_in;
-	*stdout = *hf_out;
+	//*stdin = *hf_in;
+	//*stdout = *hf_out;
 	HWND windowHandle = GetForegroundWindow();
 	long Style = GetWindowLong(windowHandle, GWL_STYLE);
 	Style &= ~WS_MAXIMIZEBOX; //this makes it still work when WS_MAXIMIZEBOX is actually already toggled off
 	Style&=~WS_THICKFRAME;
 	SetWindowLong(windowHandle, GWL_STYLE, Style);
-	initscr();
+	FILE *out = fopen("stdout.txt", "w");
+	*stdout = *out;
+	*stderr = *out;
+	//initscr();
+	scr = newterm("VT100", hf_in, hf_out);
+	set_term(scr);
 	refresh();
 	WINDOW *minimap = create_newwin(23, 44, 0, 0);
 	WINDOW *status  = create_newwin(6, 46, 23, 0);
@@ -128,7 +138,8 @@ DWORD WINAPI OutputThreadCurses(LPVOID lparam)
 				MoveWindow(ConsoleHandle, 0, 0, 525, 810/*550*/, true);
 			else
 				MoveWindow(ConsoleHandle, 0, 0, 525, 535, true);
-			initscr();
+			scr = newterm("VT100", hf_in, hf_out);
+			set_term(scr);
 			refresh();
 			minimap = create_newwin(23, 44, 0, 0);
 			status  = create_newwin(6, 46, 23, 0);
@@ -165,6 +176,20 @@ void keyPressed (unsigned char key, int x, int y)
 			glutWarpPointer(1024/2, 768/2);
 		}
           return; //parse keys until the game starts
+	}
+	if (key == '/' && !scriptReading)
+		scriptReading = true;
+	else if (scriptReading)
+	{
+		if (key != '\r' && key != '\n')
+			scriptStr += key;
+		else
+		{
+			scriptReading = false;
+			parseScriptLine((char *)scriptStr.c_str());
+			scriptStr = "";
+		}
+		return;
 	}
 	glutWarpPointer(1024/2, (768/2) + mouseY);
 	glutSetCursor(GLUT_CURSOR_NONE);

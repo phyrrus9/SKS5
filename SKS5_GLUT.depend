@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1429633170 source:c:\users\phyrrus9\documents\projects\sks5_glut\main.cpp
+1429671189 source:c:\users\phyrrus9\documents\projects\sks5_glut\main.cpp
 	<windows.h>
 	<GL/glut.h>
 	<time.h>
@@ -20,7 +20,7 @@
 	<stdio.h>
 	<time.h>
 
-1429643494 c:\users\phyrrus9\documents\projects\sks5_glut\engine.h
+1429668260 c:\users\phyrrus9\documents\projects\sks5_glut\engine.h
 	<GL\glut.h>
 	<time.h>
 	<vector>
@@ -28,6 +28,7 @@
 	"ioengine.h"
 	"minimap.h"
 	"zombie.h"
+	"scriptengine.h"
 
 1429570612 c:\users\phyrrus9\documents\projects\sks5_glut\gl_vars.h
 	<GL\glut.h>
@@ -46,12 +47,13 @@
 	<math.h>
 	<limits.h>
 
-1429643277 source:c:\users\phyrrus9\documents\projects\sks5_glut\ioengine.cpp
+1429671848 source:c:\users\phyrrus9\documents\projects\sks5_glut\ioengine.cpp
 	"engine.h"
 	<io.h>
 	<fcntl.h>
 	<wincon.h>
 	<stdio.h>
+	<string>
 	<stack>
 	<stdarg.h>
 	"curses.h"
@@ -82,4 +84,15 @@
 	<math.h>
 	<windows.h>
 	<stack>
+
+1429669483 c:\users\phyrrus9\documents\projects\sks5_glut\scriptengine.h
+	<vector>
+	"engine.h"
+
+1429671527 source:c:\users\phyrrus9\documents\projects\sks5_glut\scriptengine.cpp
+	"engine.h"
+	<string.h>
+	<stdlib.h>
+	<stdio.h>
+	<stdarg.h>
 
