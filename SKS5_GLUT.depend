@@ -1,0 +1,85 @@
+# depslib dependency file v1.0
+1429633170 source:c:\users\phyrrus9\documents\projects\sks5_glut\main.cpp
+	<windows.h>
+	<GL/glut.h>
+	<time.h>
+	"engine.h"
+	"map.h"
+
+1328085310 c:\program files (x86)\nvidia corporation\cg\include\gl\glut.h
+	<windows.h>
+	<stddef.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<sal.h>
+
+1429630974 c:\users\phyrrus9\documents\projects\sks5_glut\map.h
+
+1429639862 source:c:\users\phyrrus9\documents\projects\sks5_glut\engine.cpp
+	"engine.h"
+	<stdio.h>
+	<time.h>
+
+1429643494 c:\users\phyrrus9\documents\projects\sks5_glut\engine.h
+	<GL\glut.h>
+	<time.h>
+	<vector>
+	"gfxengine.h"
+	"ioengine.h"
+	"minimap.h"
+	"zombie.h"
+
+1429570612 c:\users\phyrrus9\documents\projects\sks5_glut\gl_vars.h
+	<GL\glut.h>
+
+1429618310 c:\users\phyrrus9\documents\projects\sks5_glut\gfxengine.h
+	<GL\glut.h>
+	<windows.h>
+	"curses.h"
+
+1429638742 c:\users\phyrrus9\documents\projects\sks5_glut\ioengine.h
+	<windows.h>
+	"curses.h"
+
+1429643603 source:c:\users\phyrrus9\documents\projects\sks5_glut\gfxengine.cpp
+	"engine.h"
+	<math.h>
+	<limits.h>
+
+1429643277 source:c:\users\phyrrus9\documents\projects\sks5_glut\ioengine.cpp
+	"engine.h"
+	<io.h>
+	<fcntl.h>
+	<wincon.h>
+	<stdio.h>
+	<stack>
+	<stdarg.h>
+	"curses.h"
+
+1429643502 source:c:\users\phyrrus9\documents\projects\sks5_glut\gl_vars.cpp
+	"engine.h"
+
+1429605610 c:\users\phyrrus9\documents\projects\sks5_glut\curses.h
+	<stdarg.h>
+	<stddef.h>
+	<stdio.h>
+	<wchar.h>
+
+1429612160 c:\users\phyrrus9\documents\projects\sks5_glut\minimap.h
+	"curses.h"
+
+1429625963 source:c:\users\phyrrus9\documents\projects\sks5_glut\minimap.cpp
+	"engine.h"
+
+1429614729 source:c:\users\phyrrus9\documents\projects\sks5_glut\letters.cpp
+	<GL\glut.h>
+	<vector>
+
+1429637291 c:\users\phyrrus9\documents\projects\sks5_glut\zombie.h
+
+1429643523 source:c:\users\phyrrus9\documents\projects\sks5_glut\zombie.cpp
+	"engine.h"
+	<math.h>
+	<windows.h>
+	<stack>
+
