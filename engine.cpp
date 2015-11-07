@@ -289,6 +289,22 @@ void moveBullets()
 		case V_WEST:
 			--bullets[i].x;
 			break;
+        case V_NORTHWEST:
+            ++bullets[i].y;
+            --bullets[i].x;
+            break;
+        case V_NORTHEAST:
+            ++bullets[i].y;
+            ++bullets[i].x;
+            break;
+        case V_SOUTHWEST:
+            --bullets[i].y;
+            --bullets[i].x;
+            break;
+        case V_SOUTHEAST:
+            --bullets[i].y;
+            ++bullets[i].x;
+            break;
 		}
 		if (uchartoblockType(map[bullets[i].z][bullets[i].y][bullets[i].x]) != B_NIL ||
 			uchartoblockType(map[bullets[i].z - 1][bullets[i].y][bullets[i].x]) == B_ZOM)

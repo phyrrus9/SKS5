@@ -78,7 +78,7 @@ void print_debug(WINDOW *out)
 	if (!debugVisible) return;
 	wclear(out);
 	wprintw(out, "\n");
-	wprintw(out, " X: %d\tY: %d\tZ: %d\tMx: %-3d\tMy: %-3d\n", pl_xpos, pl_ypos, pl_zpos, mouseX, mouseY);
+	wprintw(out, " X: %d\tY: %d\tZ: %d\tMx: %-3d\tMy: %-3d\tV: %d\n", pl_xpos, pl_ypos, pl_zpos, mouseX, mouseY, pl_view);
 	if (debugbuf.size() > 80)
 		clean_debug_buffer();
 	int start = debugbuf.size() - 20;
@@ -157,11 +157,49 @@ DWORD WINAPI OutputThreadCurses(LPVOID lparam)
 
 void mouseMove(int x, int y)
 {
+    float mouseRx;
+    int chgView = 0; //0 = NO change, -1 = northwest, -2 = west, 1 = northeast, 2 = east
+    int currMouse;
 	if (!gameStarted) return;
 	mouseX = x - (1024 / 2);
 	mouseY = y - (768 / 2);
 	Zangle = mouseY / 8;
 	//Yangle = mouseRotate();
+	mouseRx = mouseX * .086;
+	currMouse = mouseRotate();
+	if (mouseRx > 30 && mouseRx < 60)
+        chgView = 1;
+    else if (mouseRx > -60 && mouseRx < -30)
+        chgView = -1;
+    if (chgView != 0)
+    {
+        if (chgView == -1) //one view left
+        {
+            Yangle -= 45;
+        }
+        else if (chgView == 1) //one view right
+        {
+            Yangle += 45;
+        }
+        glutWarpPointer(1024/2, (768/2) + mouseY);
+        while (Yangle < 0) Yangle += 360;
+        if (Yangle == 0)
+            pl_view = V_NORTH;
+        else if (Yangle == 45 || Yangle == -315)
+            pl_view = V_NORTHEAST;
+        else if (Yangle == 90 || Yangle == -270)
+            pl_view = V_EAST;
+        else if (Yangle == 135 || Yangle == -225)
+            pl_view = V_SOUTHEAST;
+        else if (Yangle == 180 || Yangle == -180)
+            pl_view = V_SOUTH;
+        else if (Yangle == 225 || Yangle == -135)
+            pl_view = V_SOUTHWEST;
+        else if (Yangle == 270 || Yangle == -90)
+            pl_view = V_WEST;
+        else if (Yangle == 315 || Yangle == -45)
+            pl_view = V_NORTHWEST;
+    }
 	glutPostRedisplay();
 }
 
@@ -191,7 +229,7 @@ void keyPressed (unsigned char key, int x, int y)
 		}
 		return;
 	}
-	glutWarpPointer(1024/2, (768/2) + mouseY);
+	//glutWarpPointer(1024/2, (768/2) + mouseY);
 	glutSetCursor(GLUT_CURSOR_NONE);
 	if (key == ' ')
 	{
@@ -230,22 +268,6 @@ void keyPressed (unsigned char key, int x, int y)
 		glutPostRedisplay();
 		return;
 	}
-	/*else if (key == 'q')
-	{
-		if (pl_view == V_NORTH && eatObject(pl_xpos - 1, pl_ypos + 1, pl_zpos))
-			makeMove(2 | 4);
-		else if (pl_view == V_SOUTH && eatObject(pl_xpos + 1, pl_ypos - 1, pl_zpos))
-			makeMove(1 | 8);
-		else if (pl_view == V_EAST && eatObject(pl_xpos + 1, pl_ypos + 1, pl_zpos))
-			makeMove(2 | 8);
-		else if (pl_view == V_WEST && eatObject(pl_xpos - 1, pl_ypos - 1, pl_zpos))
-			makeMove(1 | 4);
-	}
-	else if (key == 'e')
-	{
-		if (pl_view == V_NORTH && eatObject(pl_xpos - 1, pl_ypos, pl_zpos) && eatObject(pl_xpos + 1, pl_ypos, pl_zpos))
-			makeMove(2 | 8);
-	}*/ //in progress
 	else if (key == 'w')
 	{
 		if (pl_view == V_NORTH && eatObject(pl_xpos, pl_ypos + 1, pl_zpos))
@@ -256,6 +278,14 @@ void keyPressed (unsigned char key, int x, int y)
 			makeMove(8);
 		else if (pl_view == V_WEST && eatObject(pl_xpos - 1, pl_ypos, pl_zpos))
 			makeMove(4);
+        else if (pl_view == V_NORTHWEST && eatObject(pl_xpos - 1, pl_ypos + 1, pl_zpos)) //up, right
+			makeMove(4 | 2);
+        else if (pl_view == V_NORTHEAST && eatObject(pl_xpos + 1, pl_ypos + 1, pl_zpos))
+			makeMove(8 | 2);
+        else if (pl_view == V_SOUTHWEST && eatObject(pl_xpos - 1, pl_ypos - 1, pl_zpos))
+			makeMove(4 | 1);
+        else if (pl_view == V_SOUTHEAST && eatObject(pl_xpos + 1, pl_ypos - 1, pl_zpos))
+			makeMove(8 | 1);
     	}
     	else if (key == 'a')
     	{
@@ -267,6 +297,14 @@ void keyPressed (unsigned char key, int x, int y)
 			makeMove(2);
 		else if (pl_view == V_WEST && eatObject(pl_xpos, pl_ypos - 1, pl_zpos))
 			makeMove(1);
+        else if (pl_view == V_NORTHWEST && eatObject(pl_xpos - 1, pl_ypos - 1, pl_zpos)) //up, right
+			makeMove(4 | 1);
+        else if (pl_view == V_NORTHEAST && eatObject(pl_xpos - 1, pl_ypos + 1, pl_zpos))
+			makeMove(4 | 2);
+        else if (pl_view == V_SOUTHWEST && eatObject(pl_xpos + 1, pl_ypos + 1, pl_zpos))
+			makeMove(8 | 1);
+        else if (pl_view == V_SOUTHEAST && eatObject(pl_xpos + 1, pl_ypos - 1, pl_zpos))
+			makeMove(8 | 2);
 	}
     	else if (key == 's')
     	{
@@ -278,6 +316,14 @@ void keyPressed (unsigned char key, int x, int y)
 			makeMove(4);
 		else if (pl_view == V_WEST && eatObject(pl_xpos + 1, pl_ypos, pl_zpos))
 			makeMove(8);
+        else if (pl_view == V_NORTHWEST && eatObject(pl_xpos + 1, pl_ypos - 1, pl_zpos)) //up, right
+			makeMove(1 | 8);
+        else if (pl_view == V_NORTHEAST && eatObject(pl_xpos - 1, pl_ypos - 1, pl_zpos))
+			makeMove(1 | 4);
+        else if (pl_view == V_SOUTHWEST && eatObject(pl_xpos + 1, pl_ypos + 1, pl_zpos))
+			makeMove(2 | 8);
+        else if (pl_view == V_SOUTHEAST && eatObject(pl_xpos - 1, pl_ypos + 1, pl_zpos))
+			makeMove(2 | 4);
     	}
     	else if (key == 'd')
     	{
@@ -289,6 +335,14 @@ void keyPressed (unsigned char key, int x, int y)
 			makeMove(1);
 		else if (pl_view == V_WEST && eatObject(pl_xpos, pl_ypos + 1, pl_zpos))
 			makeMove(2);
+        else if (pl_view == V_NORTHWEST && eatObject(pl_xpos + 1, pl_ypos + 1, pl_zpos)) //up, right
+			makeMove(8 | 2);
+        else if (pl_view == V_NORTHEAST && eatObject(pl_xpos + 1, pl_ypos - 1, pl_zpos))
+			makeMove(8 | 1);
+        else if (pl_view == V_SOUTHWEST && eatObject(pl_xpos - 1, pl_ypos + 1, pl_zpos))
+			makeMove(4 | 2);
+        else if (pl_view == V_SOUTHEAST && eatObject(pl_xpos - 1, pl_ypos - 1, pl_zpos))
+			makeMove(4 | 1);
     	}
     	if (pl_zpos > 1)
     	{

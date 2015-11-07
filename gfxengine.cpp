@@ -26,6 +26,7 @@ void rotateScene()
 		glRotatef(-Zangle, 0, 0, 1);
 	else
 		glRotatef(Zangle, 0, 0, 1);
+    glRotatef(mouseRotate(), 0, 1, 0);
 }
 
 void setColor(cubeColor c)

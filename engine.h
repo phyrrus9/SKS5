@@ -13,7 +13,7 @@ using namespace std;
 
 enum cubeColor { C_GREEN, C_RED, C_BLUE, C_ORANGE, C_BND, C_GRY, C_WHITE, C_NIL };
 enum blockType { B_NIL, B_BND, B_WAL, B_KEY, B_TEL, B_COI, B_LGT, B_BUL, B_ZOM };
-enum viewType  { V_NORTH, V_SOUTH, V_EAST, V_WEST };
+enum viewType  { V_NORTH, V_NORTHEAST, V_EAST, V_SOUTHEAST, V_SOUTH, V_SOUTHWEST, V_WEST, V_NORTHWEST };
 
 typedef struct bulletType
 {

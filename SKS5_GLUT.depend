@@ -6,7 +6,7 @@
 	"engine.h"
 	"map.h"
 
-1328085310 c:\program files (x86)\nvidia corporation\cg\include\gl\glut.h
+1328096110 c:\program files (x86)\nvidia corporation\cg\include\gl\glut.h
 	<windows.h>
 	<stddef.h>
 	<GL/gl.h>
@@ -95,4 +95,87 @@
 	<stdlib.h>
 	<stdio.h>
 	<stdarg.h>
+
+1446767396 source:c:\users\custom\projects\sks5\main.cpp
+	<windows.h>
+	<GL/glut.h>
+	<time.h>
+	"engine.h"
+	"map.h"
+
+1446882120 c:\users\custom\projects\sks5\engine.h
+	<GL\glut.h>
+	<time.h>
+	<vector>
+	"gfxengine.h"
+	"ioengine.h"
+	"minimap.h"
+	"zombie.h"
+	"scriptengine.h"
+
+1446767396 c:\users\custom\projects\sks5\gfxengine.h
+	<GL\glut.h>
+	<windows.h>
+	"curses.h"
+
+1446767396 c:\users\custom\projects\sks5\curses.h
+	<stdarg.h>
+	<stddef.h>
+	<stdio.h>
+	<wchar.h>
+
+1446767396 c:\users\custom\projects\sks5\ioengine.h
+	<windows.h>
+	"curses.h"
+
+1446767396 c:\users\custom\projects\sks5\minimap.h
+	"curses.h"
+
+1446767396 c:\users\custom\projects\sks5\zombie.h
+
+1446767396 c:\users\custom\projects\sks5\scriptengine.h
+	<vector>
+	"engine.h"
+
+1446767396 c:\users\custom\projects\sks5\map.h
+
+1446879547 source:c:\users\custom\projects\sks5\engine.cpp
+	"engine.h"
+	<stdio.h>
+	<time.h>
+
+1446878985 source:c:\users\custom\projects\sks5\gfxengine.cpp
+	"engine.h"
+	<math.h>
+	<limits.h>
+
+1446767396 source:c:\users\custom\projects\sks5\gl_vars.cpp
+	"engine.h"
+
+1446916528 source:c:\users\custom\projects\sks5\ioengine.cpp
+	"engine.h"
+	<io.h>
+	<fcntl.h>
+	<wincon.h>
+	<stdio.h>
+	<string>
+	<stack>
+	<stdarg.h>
+	"curses.h"
+
+1446916658 source:c:\users\custom\projects\sks5\minimap.cpp
+	"engine.h"
+
+1446767396 source:c:\users\custom\projects\sks5\scriptengine.cpp
+	"engine.h"
+	<string.h>
+	<stdlib.h>
+	<stdio.h>
+	<stdarg.h>
+
+1446767396 source:c:\users\custom\projects\sks5\zombie.cpp
+	"engine.h"
+	<math.h>
+	<windows.h>
+	<stack>
 

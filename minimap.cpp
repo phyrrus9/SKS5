@@ -137,9 +137,9 @@ void draw_minimap(WINDOW *win)
 			}
 	wclear(win);
 	wprintw(win, "\n ");
-	if (pl_view == V_NORTH)
+	if (pl_view == V_NORTH || pl_view == V_NORTHEAST || pl_view == V_NORTHWEST)
 		display_minimap_NORTH(win, minimap);
-	else if (pl_view == V_SOUTH)
+	else if (pl_view == V_SOUTH || pl_view == V_SOUTHEAST || pl_view == V_SOUTHWEST)
 		display_minimap_SOUTH(win, minimap);
 	else if (pl_view == V_EAST)
 		display_minimap_EAST(win, minimap);
