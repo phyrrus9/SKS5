@@ -13,6 +13,23 @@ using namespace std;
 
 string scriptStr = ""; //yes, I know it's file global
 bool scriptReading = false;
+stack<keyEvent> io_keyPressed;
+stack<keyEvent> io_specialKeyPressed;
+
+void keyboard_enter(keyEvent k, bool special)
+{
+	if (!special)
+		io_keyPressed.push(k);
+	else
+		io_specialKeyPressed.push(k);
+}
+void keyboard_exit(bool special)
+{
+	if (!special)
+		io_keyPressed.pop();
+	else
+		io_specialKeyPressed.pop();
+}
 
 void clearConsole()
 {
@@ -135,7 +152,7 @@ DWORD WINAPI OutputThreadCurses(LPVOID lparam)
 			endwin();
 			debugMode = debugVisible;
 			if (debugMode)
-				MoveWindow(ConsoleHandle, 0, 0, 525, 810/*550*/, true);
+				MoveWindow(ConsoleHandle, 0, 0, 525, 1110/*550*/, true);
 			else
 				MoveWindow(ConsoleHandle, 0, 0, 525, 535, true);
 			scr = newterm("VT100", hf_in, hf_out);
@@ -204,6 +221,13 @@ void mouseMove(int x, int y)
 }
 
 void keyPressed (unsigned char key, int x, int y)
+{
+	keyEvent k = io_keyPressed.top();
+	k(key, x, y);
+	glutPostRedisplay();
+}
+
+void default_keyPressed (int key, int x, int y)
 {
 	if (gameOver) return;
 	if (!gameStarted)
@@ -344,6 +368,10 @@ void keyPressed (unsigned char key, int x, int y)
         else if (pl_view == V_SOUTHEAST && eatObject(pl_xpos - 1, pl_ypos - 1, pl_zpos))
 			makeMove(4 | 1);
     	}
+    	else if (key == 'i')
+	{
+		inventory_enter();
+	}
     	if (pl_zpos > 1)
     	{
 		while (canEat(pl_xpos, pl_ypos, pl_zpos - 1, false) && uchartoblockType(map[pl_zpos - 1][pl_ypos][pl_xpos]) != B_WAL)
@@ -352,10 +380,16 @@ void keyPressed (unsigned char key, int x, int y)
 			makeMove(16);
 		}
 	}
-	glutPostRedisplay();
 }
 
 void keySpecial(int key, int x, int y)
+{
+	keyEvent k = io_specialKeyPressed.top();
+	k(key, x, y);
+	glutPostRedisplay();
+}
+
+void default_keySpecial(int key, int x, int y)
 {
 	if (key == GLUT_KEY_INSERT)
 		debugVisible = debugVisible ? false : true;
@@ -401,7 +435,6 @@ void keySpecial(int key, int x, int y)
 	   pl_view = V_SOUTH;
     if (Yangle == 270 || Yangle == -90)
 	   pl_view = V_WEST;
-    glutPostRedisplay();
 }
 
 void writeDebug(const char *fmt, ...)

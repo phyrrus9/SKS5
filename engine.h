@@ -26,6 +26,7 @@ typedef struct bulletType
 #include "minimap.h"
 #include "zombie.h"
 #include "scriptengine.h"
+#include "inventory.h"
 
 blockType uchartoblockType(unsigned char in);
 unsigned int getscore();

@@ -37,6 +37,9 @@ int main(int argc, char** argv)
 		  &ZombieThreadId);   // returns the thread identifier
 	srand(time(0));
 	argc = 0;
+	keyboard_enter(default_keyPressed);
+	keyboard_enter(default_keySpecial, true);
+	gfx_enter(default_display);
     glutInit(&argc, argv);            // Initialize GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); // Enable double buffered mode
     glutInitWindowSize(1024, 768);   // Set the window's initial width & height

@@ -1,8 +1,21 @@
 #include "engine.h"
 #include <math.h>
 #include <limits.h>
+#include <stack>
+
+using std::stack;
 
 int angle = 0;
+stack<gfxRenderer> gfx_renderer;
+
+void gfx_enter(gfxRenderer r)
+{
+	gfx_renderer.push(r);
+}
+void gfx_exit()
+{
+	gfx_renderer.pop();
+}
 
 void initGL()
 {
@@ -203,9 +216,7 @@ void placeObject(blockType t, int distx, int disty, int distz)
     }
 }
 
-/* Handler for window-repaint event. Called back when the window first appears and
-   whenever the window needs to be re-painted. */
-void display()
+void default_display()
 {
 	if (pl_health <= 0)
 		gameOver = true;
@@ -222,21 +233,25 @@ void display()
 		}
 	}
 	moveBullets();
-   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear color and depth buffers
-   glMatrixMode(GL_MODELVIEW);     // To operate on model-view matrix
-   glLoadIdentity();
-    for (int zp = 0; zp < MAPZ; zp++)
+	for (int zp = 0; zp < MAPZ; zp++)
 	   for (int xp = 0; xp < MAPXY; xp++)
 		  for (int yp = 0; yp < MAPXY; yp++)
-		  {
 			 placeObject(uchartoblockType(map[zp][yp][xp]), (xp - pl_xpos), (yp - pl_ypos), (zp - pl_zpos));
-		  }
 	//drawCube(0, 0, -1, .001, C_GREEN); //crosshair
 	//drawCube(0, 0, 1, .001, C_GREEN); //crosshair
 	//drawCube(0, -1, -1, .001, C_BLUE); //crosshair
 	for (int bul = 0; bul < bullets.size(); bul++)
 		placeObject(B_BUL, (bullets[bul].x - pl_xpos) + .5, (bullets[bul].y - pl_ypos) + .5, (bullets[bul].z - pl_zpos));
-   glutSwapBuffers();  // Swap the front and back frame buffers (double buffering)
+}
+
+void display()
+{
+	gfxRenderer r = gfx_renderer.top();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear color and depth buffers
+	glMatrixMode(GL_MODELVIEW);     // To operate on model-view matrix
+	glLoadIdentity();
+	r();
+	glutSwapBuffers();  // Swap the front and back frame buffers (double buffering)
 }
 
 /* Handler for window re-size event. Called back when the window first appears and
@@ -281,5 +296,15 @@ DWORD WINAPI ColorChanger(LPVOID lparam)
 		for (; telb > 0; telb -= .0005, telr += .0005) Sleep(1); //blue->red
 		for (; telr > 0; telr -= .0005, telg += .0005) Sleep(1); //red->green
 		for (; telg > 0; telg -= .0005, telb += .0005) Sleep(1); //green->blue
+	}
+}
+
+void displayText( float x, float y, int r, int g, int b, const char *str )
+{
+	int j = strlen( str );
+	glColor3f( r, g, b );
+	glRasterPos2f( x, y );
+	for( int i = 0; i < j; i++ ) {
+		glutBitmapCharacter( GLUT_BITMAP_TIMES_ROMAN_24, str[i] );
 	}
 }

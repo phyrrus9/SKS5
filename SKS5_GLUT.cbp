@@ -42,10 +42,23 @@
 			<Add library="gdi32" />
 			<Add directory="C:/Program Files (x86)/NVIDIA Corporation/Cg/lib" />
 		</Linker>
+		<Unit filename="curses.h" />
+		<Unit filename="engine.cpp" />
+		<Unit filename="engine.h" />
+		<Unit filename="gfxengine.cpp" />
+		<Unit filename="gfxengine.h" />
+		<Unit filename="gl_vars.cpp" />
+		<Unit filename="gl_vars.h" />
+		<Unit filename="ioengine.cpp" />
+		<Unit filename="ioengine.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="map.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="map.h" />
+		<Unit filename="minimap.cpp" />
+		<Unit filename="minimap.h" />
+		<Unit filename="scriptengine.cpp" />
+		<Unit filename="scriptengine.h" />
+		<Unit filename="zombie.cpp" />
+		<Unit filename="zombie.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
