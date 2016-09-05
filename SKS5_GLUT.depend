@@ -179,14 +179,14 @@
 	<windows.h>
 	<stack>
 
-1473042565 source:d:\github\sks5\main.cpp
+1473059773 source:d:\github\sks5\main.cpp
 	<windows.h>
 	<GL/glut.h>
 	<time.h>
 	"engine.h"
 	"map.h"
 
-1473043115 d:\github\sks5\engine.h
+1473063646 d:\github\sks5\engine.h
 	<GL\glut.h>
 	<time.h>
 	<vector>
@@ -221,20 +221,20 @@
 	<vector>
 	"engine.h"
 
-1473036007 d:\github\sks5\map.h
+1473059979 d:\github\sks5\map.h
 
-1473036007 source:d:\github\sks5\engine.cpp
+1473063382 source:d:\github\sks5\engine.cpp
 	"engine.h"
 	<stdio.h>
 	<time.h>
 
-1473046284 source:d:\github\sks5\gfxengine.cpp
+1473064179 source:d:\github\sks5\gfxengine.cpp
 	"engine.h"
 	<math.h>
 	<limits.h>
 	<stack>
 
-1473036007 source:d:\github\sks5\gl_vars.cpp
+1473059168 source:d:\github\sks5\gl_vars.cpp
 	"engine.h"
 
 1473044942 source:d:\github\sks5\ioengine.cpp
@@ -271,9 +271,16 @@
 	<GL/glu.h>
 	<sal.h>
 
-1473050208 source:d:\github\sks5\inventory.cpp
+1473061208 source:d:\github\sks5\inventory.cpp
 	"engine.h"
 
 1473050219 d:\github\sks5\inventory.h
 	<vector>
+
+1328096110 d:\github\sks5\include\gl\glut.h
+	<windows.h>
+	<stddef.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<sal.h>
 

@@ -3,6 +3,7 @@
  * --Ethan Laur
  */
 #include <windows.h>  // for MS Windows
+#undef MOUSE_MOVED
 #include <GL/glut.h>  // GLUT, include glu.h and gl.h
 #include <time.h>
 #include "engine.h"
@@ -43,7 +44,7 @@ int main(int argc, char** argv)
     glutInit(&argc, argv);            // Initialize GLUT
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); // Enable double buffered mode
     glutInitWindowSize(1024, 768);   // Set the window's initial width & height
-    glutInitWindowPosition(525, 0); // Position the window's initial top-left corner
+    glutInitWindowPosition(520, 0); // Position the window's initial top-left corner
     glutCreateWindow(title);          // Create window with the given title
     glutDisplayFunc(display);       // Register callback handler for window re-paint event
     glutReshapeFunc(reshape);       // Register callback handler for window re-size event
@@ -59,6 +60,20 @@ int main(int argc, char** argv)
     glutPassiveMotionFunc(mouseMove);
     glutWarpPointer(1024/2, 768/2);
     glutSetCursor(GLUT_CURSOR_NONE);
+    /********************
+    glutInitWindowSize(1024, 200);   // Set the window's initial width & height
+    glutInitWindowPosition(520, 835); // Position the window's initial top-left corner
+    glutCreateWindow(title2);          // Create window with the given title
+    glutDisplayFunc(display);       // Register callback handler for window re-paint event
+    glutReshapeFunc(reshape);       // Register callback handler for window re-size event
+    glutIdleFunc(display);
+    initGL();
+    HWND win2=FindWindowA(NULL,title2);//Find the window you created with GLUT
+	style=GetWindowLong(win2,GWL_STYLE);//Get the current style
+	style&=~WS_MAXIMIZEBOX;//Disable the maximize box
+	style&=~WS_THICKFRAME;
+	SetWindowLong(win2,GWL_STYLE,style);//Set the new style
+	*************************/
     glutMainLoop();                 // Enter the infinite event-processing loop
     return 0;
 }

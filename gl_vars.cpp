@@ -2,6 +2,7 @@
 
 /* Global variables */
 const char *title = "Super Key Seeker 5: The lost dimension";
+const char *title2 = "AUX";
 GLfloat Yangle = 0.0f, Zangle = 0.0f;
 bool jumping = 0;
 int mouseX, mouseY;

@@ -62,7 +62,7 @@ void setColor(cubeColor c)
 		glColor3f(0.1, 0.1, 0.1);
 		break;
     	case C_BND:
-	   	glColor3f(0.05f, 0.001f, 0.001f);
+	   	glColor3f(0.001f, 0.001f, 0.001f);
 	   	break;
 	case C_WHITE:
 		glColor3f(1.0f, 1.0f, 1.0f);
@@ -173,8 +173,8 @@ void drawPolygon(polygonType t, float xpos, float ypos, float zpos, float size, 
 
 void placeObject(blockType t, int distx, int disty, int distz)
 {
-	double tanparam = (double)distx/(double)disty;
-	double angle = tan(tanparam);
+	//double tanparam = (double)distx/(double)disty;
+	//double angle = tan(tanparam);
 	double distance = sqrt((double)(distx * distx) + (double(disty * disty)));
 	if (distance > 25) return; //FOV don't draw
 	switch (t)
@@ -233,14 +233,22 @@ void default_display()
 		}
 	}
 	moveBullets();
-	for (int zp = 0; zp < MAPZ; zp++)
-	   for (int xp = 0; xp < MAPXY; xp++)
-		  for (int yp = 0; yp < MAPXY; yp++)
-			 placeObject(uchartoblockType(map[zp][yp][xp]), (xp - pl_xpos), (yp - pl_ypos), (zp - pl_zpos));
+	int maxdist = 60;
+	int 	zp = pl_zpos - maxdist,
+		xp = pl_xpos - maxdist,
+		yp = pl_ypos - maxdist;
+	zp = zp < 0 ? 0 : zp;
+	zp = zp < 0 ? 0 : xp;
+	yp = yp < 0 ? 0 : yp;
+	for (zp = 0; zp < pl_zpos + maxdist && zp < MAPZ; zp++)
+	   for (xp = 0; xp < pl_xpos + maxdist && xp < MAPXY; xp++)
+		  for (yp = 0; yp < pl_ypos + maxdist && yp < MAPXY; yp++)
+				placeObject(uchartoblockType(map[zp][yp][xp]), (xp - pl_xpos), (yp - pl_ypos), (zp - pl_zpos));
+
 	//drawCube(0, 0, -1, .001, C_GREEN); //crosshair
 	//drawCube(0, 0, 1, .001, C_GREEN); //crosshair
 	//drawCube(0, -1, -1, .001, C_BLUE); //crosshair
-	for (int bul = 0; bul < bullets.size(); bul++)
+	for (unsigned int bul = 0; bul < bullets.size(); bul++)
 		placeObject(B_BUL, (bullets[bul].x - pl_xpos) + .5, (bullets[bul].y - pl_ypos) + .5, (bullets[bul].z - pl_zpos));
 }
 

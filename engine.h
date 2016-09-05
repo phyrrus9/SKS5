@@ -1,14 +1,15 @@
 #ifndef ENGINE_H_INCLUDED
 #define ENGINE_H_INCLUDED
 
+#undef MOUSE_MOVED
 #include <GL\glut.h>
 #include <time.h>
 #include <vector>
 
 using namespace std;
 
-#define MAPZ 7
-#define MAPXY 50
+#define MAPZ 8
+#define MAPXY 128
 #define LEVELS 1
 
 enum cubeColor { C_GREEN, C_RED, C_BLUE, C_ORANGE, C_BND, C_GRY, C_WHITE, C_NIL };
@@ -44,7 +45,7 @@ void removeBullets(vector<int> removals);
 void moveBullets();
 
 /* Global variables */
-extern const char *title;
+extern const char *title, *title2;
 extern GLfloat Yangle, Zangle;
 extern bool jumping;
 extern int mouseX, mouseY;

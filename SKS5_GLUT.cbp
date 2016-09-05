@@ -32,7 +32,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="C:/Program Files (x86)/NVIDIA Corporation/Cg/include" />
+			<Add directory="include" />
 		</Compiler>
 		<Linker>
 			<Add library="glut32" />
@@ -40,7 +40,8 @@
 			<Add library="glu32" />
 			<Add library="winmm" />
 			<Add library="gdi32" />
-			<Add directory="C:/Program Files (x86)/NVIDIA Corporation/Cg/lib" />
+			<Add library="pdcurses" />
+			<Add directory="lib" />
 		</Linker>
 		<Unit filename="curses.h" />
 		<Unit filename="engine.cpp" />
@@ -49,6 +50,8 @@
 		<Unit filename="gfxengine.h" />
 		<Unit filename="gl_vars.cpp" />
 		<Unit filename="gl_vars.h" />
+		<Unit filename="inventory.cpp" />
+		<Unit filename="inventory.h" />
 		<Unit filename="ioengine.cpp" />
 		<Unit filename="ioengine.h" />
 		<Unit filename="main.cpp" />

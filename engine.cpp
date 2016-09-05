@@ -96,6 +96,22 @@ void playerPlaceBlock(char pos) // 1 = right in front, 0 = z-1, 2 = z+1
 	case V_WEST:
 		x--;
 		break;
+	case V_NORTHEAST:
+		y++;
+		x++;
+		break;
+	case V_NORTHWEST:
+		y++;
+		x--;
+		break;
+	case V_SOUTHEAST:
+		y--;
+		x++;
+		break;
+	case V_SOUTHWEST:
+		y--;
+		x--;
+		break;
 	}
 	if (pos == 2)
 		z++;
@@ -183,6 +199,7 @@ char untranslateMap(unsigned char c)
 	case 8:
 		return 'Z';
 	}
+	return ' ';
 }
 
 bool loadMap(char *path)
@@ -204,6 +221,7 @@ bool loadMap(char *path)
 	}
 	fscanf(f, "%d", &requiredKeys);
 	fclose(f);
+	return true;
 }
 
 bool loadMap(int lnum)
@@ -212,9 +230,34 @@ bool loadMap(int lnum)
 	return loadMap(levelNames[lnum]);
 }
 
+void initMap()
+{
+	for (int z = 0; z < MAPZ; z++)
+		for (int y = 0; y < MAPXY; y++)
+			for (int x = 0; x < MAPXY; x++)
+				map[z][y][x] = 0;
+	//floor
+	for (int y = 0; y < MAPXY; y++)
+		for (int x = 0; x < MAPXY; x++)
+			map[0][y][x] = 1;
+	//ceil
+	for (int y = 0; y < MAPXY; y++)
+		for (int x = 0; x < MAPXY; x++)
+			map[MAPZ - 1][y][x] = 1;
+	//NWALL/SWALL
+	for (int z = 0; z < MAPZ; z++)
+		for (int y = 0; y < MAPXY; y++)
+			map[z][y][0] = map[z][y][MAPXY - 1] = 1;
+	//EWALL/WWALL
+	for (int z = 0; z < MAPZ; z++)
+		for (int x = 0; x < MAPXY; x++)
+			map[z][0][x] = map[z][MAPXY - 1][x] = 1;
+}
+
 void randomMap()
 {
 	int keys = 0;
+	initMap();
 	zombies.clear();
 	srand(time(NULL));
 	for (int z = 1; z < MAPZ - 1; z++)
@@ -226,10 +269,10 @@ void randomMap()
 				int num = rand() % 500;
 				if (num == 1) num = 0; //no BND
 				if (num == 4) num = 0; //no TEL
-				if (num > 6 && num != 8) num = rand() % 25 == 0 ? 2 : 0;
+				if (num > 6 && num != 8) num = rand() % 250 == 0 ? 2 : 0;
 				if (num == 8)
 				{
-					if (zombies.size() <= pl_lvl)
+					if (zombies.size() <= (unsigned int)pl_lvl)
 					{
 						zombieType *zombie = new zombieType(x, y, z, rand() % 10 + 1, true);
 						zombies.push_back(zombie);
@@ -239,7 +282,7 @@ void randomMap()
 				}
 				if (num == 3) ++keys;
 				if (uchartoblockType(map[z - 1][y][x]) != B_ZOM)
-					map[z][y][x] = (unsigned char)num;
+					map[z][y][x] = (unsigned char)num % 8;
 			}
 		}
 	}
@@ -256,12 +299,12 @@ void removeBullets(vector<int> removals)
 {
 	vector<bulletType> newBullets;
 	bool good;
-	for (int i = 0; i < bullets.size(); i++)
+	for (unsigned int i = 0; i < bullets.size(); i++)
 	{
 		good = true;
-		for (int j = 0; j < removals.size(); j++)
+		for (unsigned int j = 0; j < removals.size(); j++)
 		{
-			if (removals[j] == i) good = false;
+			if (removals[j] == (int)i) good = false;
 		}
 		if (good)
 			newBullets.push_back(bullets[i]);
@@ -273,7 +316,7 @@ void removeBullets(vector<int> removals)
 void moveBullets()
 {
 	vector<int> removals;
-	for (int i = 0; i < bullets.size(); i++)
+	for (unsigned int i = 0; i < bullets.size(); i++)
 	{
 		switch (bullets[i].direction)
 		{

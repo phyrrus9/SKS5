@@ -178,12 +178,12 @@ void mouseMove(int x, int y)
     int chgView = 0; //0 = NO change, -1 = northwest, -2 = west, 1 = northeast, 2 = east
     int currMouse;
 	if (!gameStarted) return;
-	mouseX = x - (1024 / 2);
+	//mouseX = x - (1024 / 2);
 	mouseY = y - (768 / 2);
 	Zangle = mouseY / 8;
 	//Yangle = mouseRotate();
-	mouseRx = mouseX * .086;
-	currMouse = mouseRotate();
+	//mouseRx = mouseX * .086;
+	//currMouse = mouseRotate();
 	if (mouseRx > 30 && mouseRx < 60)
         chgView = 1;
     else if (mouseRx > -60 && mouseRx < -30)

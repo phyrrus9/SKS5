@@ -1,4 +1,8 @@
 #include "engine.h"
+
+viewType o_view;
+int o_Yangle, o_Zangle;
+
 void inventory_exit();
 
 namespace inventory_menu
@@ -141,6 +145,9 @@ namespace inventory
 
 void inventory_exit()
 {
+	pl_view = o_view;
+	Yangle = o_Yangle;
+	Zangle = o_Zangle;
 	gfx_exit();
 	keyboard_exit();
 	keyboard_exit(true);
@@ -148,6 +155,12 @@ void inventory_exit()
 
 void inventory_enter()
 {
+	o_view = pl_view;
+	o_Yangle = Yangle;
+	o_Zangle = Zangle;
+	pl_view = V_NORTH;
+	Yangle = 0;
+	Zangle = 0;
      gfx_enter(inventory_menu::inventory_render);
      keyboard_enter(inventory_menu::inventory_keyPress);
      keyboard_enter(inventory_menu::inventory_keyPress, true);
